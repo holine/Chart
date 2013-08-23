@@ -33,7 +33,36 @@ Chart.prototype.column = function(cfg) {
 				typeof (cfg.width) == 'undefined' ? '100%' : cfg.width,
 				typeof (cfg.height) == 'undefined' ? '100%' : cfg.height, 0, 1);
 	}
+	var chart = {
+		is2D : 0,
+		canvasBgAlpha : 0,
+		bgAlpha : 0,// flash背景透明度
+		showBorder : 0,// 是否显示flash边框
+		useRoundEdges : '1',
+		showPercentInToolTip : '1',
+		showPercentValues : '1',
+		shownames : '0',
+		animation : '1',
+		legendBgAlpha : '0',
+		legendShadow : '0',
+		legendBorderColor : 'eeeeee',
+		legendBorderAlpha : 0, // 边框透明度
+		baseFontSize : '12',
+		showlegend : '1',
+		legendPosition : 'RIGHT',
+		legendIconScale : '2',
+		enableSmartLabels : '0',
+		labelDisplay : 'WRAP',
+		showToolTip : 0,
+		showToolTipShadow : 1,
+		radius3D : 0,
+	// use3DLighting:0
+	};
+	for ( var i in chart) {
+		cfg.data['chart'][i] = chart[i];
+	}
 	this.object.column[cfg.id].setJSONData(cfg.data);
+	this.object.column[cfg.id].setTransparent(true);
 	this.object.column[cfg.id].render(cfg.id);
 
 };
@@ -82,7 +111,7 @@ Chart.prototype.pie = function(cfg) {
 		radius3D : 0,
 	// use3DLighting:0
 	};
-	for(var i in chart){
+	for ( var i in chart) {
 		cfg.data['chart'][i] = chart[i];
 	}
 	this.object.pie[cfg.id].setJSONData(cfg.data);

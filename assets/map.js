@@ -367,11 +367,12 @@ var maps = function(cfg) {
 			node.setAttribute('_title', path);
 
 			node.onmouseover = function() {
-				this.style.boxShadow = '2px 2px 10px #0066CC';
+				this.style.WebkitSvgShadow = '2px 2px 10px #0066CC';
 				this.setAttribute('fill', _this.overColor);
 				_this.MshowTips(data[this.getAttribute('_title')].content);
 			};
 			node.onmouseout = function() {
+				this.style.WebkitSvgShadow = '';
 				this.setAttribute('fill', this.getAttribute('color'));
 				_this.tips.style.display = 'none';
 				_this.tips.style.top = '-10000px';
