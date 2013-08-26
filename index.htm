@@ -6,6 +6,7 @@
 <script type="text/javascript" src="assets/jquery.min.js"></script>
 <script type="text/javascript" src="assets/lib.js"></script>
 <script type="text/javascript" src="assets/map.js"></script>
+<script type="text/javascript" src="assets/swfobject.js"></script>
 <script type="text/javascript" src="chart.js"></script>
 <style type="text/css">
 body {
@@ -15,12 +16,28 @@ body {
 </style>
 </HEAD>
 <body>
-	<div id="Area" style="height:500px;"></div>
-	<div id="Column" style="height:500px;"></div>
-	<div id="Pie" style="height:500px;"></div>
+	<div id="Area" style="height: 500px;"></div>
+	<div id="Column" style="height: 500px;"></div>
+	<div id="Pie" style="height: 500px;"></div>
 	<div id="Map"></div>
+	<div id="TagCloud" style="height: 500px;"></div>
 	<script type="text/javascript">
-	   var chart = new Chart({path:'./'});
+		var chart = new Chart({
+			path : './'
+		});
+		chart.TagCloud({
+			id : 'TagCloud',
+			data : {
+				"chart" : {
+					"caption" : "Weekly Sales Summary",
+					"xAxisName" : "Week",
+					"yAxisName" : "Sales",
+					"numberPrefix" : "$"
+				},
+
+				"data" : ['河北', '香港', '澳门', '北京', '台湾', '上海', '深圳', '海南', '西藏', ]
+			}
+		});
 		chart.area({
 			id : 'Area',
 			data : {
@@ -46,56 +63,56 @@ body {
 				} ]
 			}
 		});
-        chart.column({
-            id : 'Column',
-            data : {
-                "chart" : {
-                    "caption" : "Weekly Sales Summary",
-                    "xAxisName" : "Week",
-                    "yAxisName" : "Sales",
-                    "numberPrefix" : "$"
-                },
+		chart.column({
+			id : 'Column',
+			data : {
+				"chart" : {
+					"caption" : "Weekly Sales Summary",
+					"xAxisName" : "Week",
+					"yAxisName" : "Sales",
+					"numberPrefix" : "$"
+				},
 
-                "data" : [ {
-                    "label" : "Week 1",
-                    "value" : "14400"
-                }, {
-                    "label" : "Week 2",
-                    "value" : "19600"
-                }, {
-                    "label" : "Week 3",
-                    "value" : "24000"
-                }, {
-                    "label" : "Week 4",
-                    "value" : "15700"
-                } ]
-            }
-        });
-        chart.pie({
-            id : 'Pie',
-            data : {
-                "chart" : {
-                    "caption" : "Weekly Sales Summary",
-                    "xAxisName" : "Week",
-                    "yAxisName" : "Sales",
-                    "numberPrefix" : "$"
-                },
+				"data" : [ {
+					"label" : "Week 1",
+					"value" : "14400"
+				}, {
+					"label" : "Week 2",
+					"value" : "19600"
+				}, {
+					"label" : "Week 3",
+					"value" : "24000"
+				}, {
+					"label" : "Week 4",
+					"value" : "15700"
+				} ]
+			}
+		});
+		chart.pie({
+			id : 'Pie',
+			data : {
+				"chart" : {
+					"caption" : "Weekly Sales Summary",
+					"xAxisName" : "Week",
+					"yAxisName" : "Sales",
+					"numberPrefix" : "$"
+				},
 
-                "data" : [ {
-                    "label" : "Week 1",
-                    "value" : "14400"
-                }, {
-                    "label" : "Week 2",
-                    "value" : "19600"
-                }, {
-                    "label" : "Week 3",
-                    "value" : "24000"
-                }, {
-                    "label" : "Week 4",
-                    "value" : "15700"
-                } ]
-            }
-        });
+				"data" : [ {
+					"label" : "Week 1",
+					"value" : "14400"
+				}, {
+					"label" : "Week 2",
+					"value" : "19600"
+				}, {
+					"label" : "Week 3",
+					"value" : "24000"
+				}, {
+					"label" : "Week 4",
+					"value" : "15700"
+				} ]
+			}
+		});
 		chart
 				.map({
 					id : 'Map',
