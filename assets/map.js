@@ -81,6 +81,7 @@ var maps = function(cfg) {
 		x : 1,
 		y : 1
 	};
+	this.callback = {};
 	this.isIE = navigator.userAgent.toLowerCase().match(/msie [\d.]/) ? (typeof (document
 			.createElement('video').canPlayType) == 'undefined' ? true : false)
 			: false;
@@ -204,6 +205,9 @@ var maps = function(cfg) {
 		}
 		// 绘制地图
 		for ( var path in this.paths) {
+			if(typeof(data[path].callback) != 'undefined'){
+				this.callback[path] = data[path].callback;
+			}
 			var area = this.create('<vml:shape class="vml">');
 			area.setAttribute('color', this.color(data[path].weight));
 			area.setAttribute('_title', path);
@@ -216,12 +220,19 @@ var maps = function(cfg) {
 				this.style.filter = "shadow(color=gray,direction=135)";
 				this.fillColor = _this.overColor;
 				_this.showTips(data[this.getAttribute('_title')].content);
+				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseover) != 'undefined'){
+					_this.callback[this.getAttribute('_title')].onmouseover(this.getAttribute('_title'));
+				}
+				
 			};
 			area.onmouseout = function() {
 				this.style.zIndex = '';
 				this.style.filter = "";
 				this.fillColor = this.getAttribute('color');
 				_this.tips.style.display = 'none';
+				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseout) != 'undefined'){
+					_this.callback[this.getAttribute('_title')].onmouseout(this.getAttribute('_title'));
+				}
 			};
 			area.onmousemove = function(e) {
 				if (_this.tips.style.display == 'block') {
@@ -367,6 +378,9 @@ var maps = function(cfg) {
 		;
 		// 绘制地图
 		for ( var path in this.paths) {
+			if(typeof(data[path].callback) != 'undefined'){
+				this.callback[path] = data[path].callback;
+			}
 			var node = document.createElementNS("http://www.w3.org/2000/svg",
 					'path');
 			node.setAttribute('fill', this.color(data[path].weight));
@@ -380,6 +394,9 @@ var maps = function(cfg) {
 				this.style.WebkitSvgShadow = '2px 2px 10px #0066CC';
 				this.setAttribute('fill', _this.overColor);
 				_this.MshowTips(data[this.getAttribute('_title')].content);
+				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseover) != 'undefined'){
+					_this.callback[this.getAttribute('_title')].onmouseover(this.getAttribute('_title'));
+				}
 			};
 			node.onmouseout = function() {
 				this.style.WebkitSvgShadow = '';
@@ -387,6 +404,9 @@ var maps = function(cfg) {
 				_this.tips.style.display = 'none';
 				_this.tips.style.top = '-10000px';
 				_this.tips.style.left = '-10000px';
+				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseout) != 'undefined'){
+					_this.callback[this.getAttribute('_title')].onmouseout(this.getAttribute('_title'));
+				}
 			};
 			node.onmousemove = function(e) {
 				e = e || window.event;

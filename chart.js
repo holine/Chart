@@ -12,7 +12,16 @@ Chart.prototype.map = function(cfg) {
 	if (typeof (this.object.map[cfg.id]) == 'undefined') {
 		this.object.map[cfg.id] = new maps({
 			parent : cfg.id,
-			'colors':{"0.5":"#ffc208","1":"#ffd88e","2":"#f8cfb4","3":"#d3e6a8","4":"#a9e4be","5":"#9ad4d5","100":"#a8cee6"}
+			'colors' : {
+				"0.5" : "#c1e0ff",
+				"1" : "#abd5f5",
+				"2" : "#aee6c1",
+				"3" : "#fed072",
+				"4" : "#c1e0ff",
+				"5" : "#fb8755",
+				"100" : "#ef730e"
+			},
+			overColor:'#36AEE9',
 		});
 	}
 	this.object.map[cfg.id].draw(cfg.data);
@@ -26,8 +35,9 @@ Chart.prototype.area = function(cfg) {
 	}
 
 	var chart = {
-		formatNumber : 0,
-		formatNumberScale : 0,
+		canvasBorderAlpha : 0,
+		formatNumber : 1,
+		formatNumberScale : 1,
 		placeValuesInside : 0,
 		lineColor : '#FFFFFF',
 		is2D : 0,
@@ -60,12 +70,12 @@ Chart.prototype.area = function(cfg) {
 		labelStep : 1,
 		drawAnchors : 1,
 		// anchorSides : 1,
-		// anchorRadius : 30,
+		anchorRadius : 5,
 		anchorBgColor : '46a9d5',
 		anchorBorderColor : 'ffffff',
-		// anchorBorderThickness:10,
+		anchorBorderThickness : 2,
 		anchorAlpha : 100,
-		plotBorderColor:'#46a9d5',
+		plotBorderColor : '#46a9d5',
 	// use3DLighting:0
 	};
 	for ( var i in chart) {
@@ -76,9 +86,9 @@ Chart.prototype.area = function(cfg) {
 		"definition" : [ {
 			"name" : "myValuesFont",
 			"type" : "font",
-			"size" : "18",
+			"size" : "12",
 			"color" : "FFFFFF",
-			"bold" : "1",
+			"bold" : "0",
 			"bgcolor" : "666666",
 			"bordercolor" : "666666"
 		}, {
@@ -86,15 +96,15 @@ Chart.prototype.area = function(cfg) {
 			"type" : "font",
 			"size" : "18",
 			"color" : "FFFFFF",
-			"bold" : "1",
+			"bold" : "0",
 			"bgcolor" : "3f3a34",
 			"bordercolor" : "202020"
-		},{
+		}, {
 			"name" : "myLabelsFont",
 			"type" : "font",
 			"size" : "12",
 			"color" : "FFFFFF",
-			"bold" : "1",
+			"bold" : "0",
 			"bgcolor" : "6ab7f5",
 			"bordercolor" : "6ab7f5"
 		}, {
@@ -138,7 +148,9 @@ Chart.prototype.column = function(cfg) {
 				typeof (cfg.height) == 'undefined' ? '100%' : cfg.height, 0, 1);
 	}
 	var chart = {
-			showValues:0,
+		showPlotBorder : 0,
+		overlapColumns : 0,
+		showValues : 0,
 		valuePadding : 5,
 		formatNumber : 0,
 		formatNumberScale : 0,
@@ -185,7 +197,7 @@ Chart.prototype.column = function(cfg) {
 			"bold" : "1",
 			"bgcolor" : "666666",
 			"bordercolor" : "666666"
-		},{
+		}, {
 			"name" : "myLabelsFont",
 			"type" : "font",
 			"size" : "12",
@@ -198,7 +210,7 @@ Chart.prototype.column = function(cfg) {
 			"type" : "font",
 			"size" : "18",
 			"color" : "FFFFFF",
-			"bold" : "1",
+			"bold" : "0",
 			"bgcolor" : "3f3a34",
 			"bordercolor" : "202020"
 		}, {
@@ -216,7 +228,7 @@ Chart.prototype.column = function(cfg) {
 		}, {
 			"toobject" : "yAxisValues",
 			"styles" : "myYAxisFont"
-		}  ]
+		} ]
 	};
 	for ( var i in cfg.data.data) {
 		cfg.data.data[i]['color'] = '#66bbef';// 柱状颜色
@@ -238,14 +250,14 @@ Chart.prototype.pie = function(cfg) {
 			"name" : "myLegendFont",
 			"type" : "font",
 			"font" : "Arial",
-			"size" : "14",
+			"size" : "12",
 			'color' : '666666',
 		}, {
 			"name" : "myLabelsFont",
 			"type" : "font",
 			"font" : "Arial",
-			"size" : "30",
-			"bold" : "1",
+			"size" : "18",
+			"bold" : "0",
 			'borderColor' : '999999',
 			'bgColor' : '999999',
 			'color' : 'FFFFFF',
@@ -280,7 +292,7 @@ Chart.prototype.pie = function(cfg) {
 		baseFontSize : '12',
 		showlegend : '1',
 		legendPosition : 'RIGHT',
-		legendIconScale : '2',
+		legendIconScale : '1',
 		enableSmartLabels : '0',
 		labelDisplay : 'WRAP',
 		showToolTip : 0,
@@ -292,8 +304,8 @@ Chart.prototype.pie = function(cfg) {
 	for ( var i in chart) {
 		cfg.data['chart'][i] = chart[i];
 	}
-	var colors = ['#FFC20B', '#4392D8', '00AC7C'];
-	for(var i in cfg.data.data){
+	var colors = [ '#FFC20B', '#4392D8', '00AC7C' ];
+	for ( var i in cfg.data.data) {
 		cfg.data.data[i]['color'] = colors[i % 3];
 	}
 	this.object.pie[cfg.id].setJSONData(cfg.data);
@@ -301,6 +313,9 @@ Chart.prototype.pie = function(cfg) {
 	this.object.pie[cfg.id].render(cfg.id);
 };
 Chart.prototype.TagCloud = function(cfg) {
+	var colors = ["#c1e0ff","#abd5f5","#aee6c1","#fed072","#f7b44f","#fb8755","#ef730e"];
+	var color;
+	var size;
 	if (typeof (this.object.pie[cfg.id]) == 'undefined') {
 		this.object.tagCloud[cfg.id] = new SWFObject(this.path
 				+ '/assets/TagCloud.swf', cfg.id + '_chart',
@@ -310,19 +325,42 @@ Chart.prototype.TagCloud = function(cfg) {
 	}
 	this.object.tagCloud[cfg.id].addParam("wmode", "transparent");
 	this.object.tagCloud[cfg.id].addParam("allowScriptAccess", "always");
-	this.object.tagCloud[cfg.id].addVariable("tcolor", "0x333333");
-	this.object.tagCloud[cfg.id].addVariable("tcolor2", "0x333333");
-	this.object.tagCloud[cfg.id].addVariable("hicolor", "0x000000");
+	this.object.tagCloud[cfg.id].addVariable("tcolor", "0xeeeeee");
+	this.object.tagCloud[cfg.id].addVariable("tcolor2", "0xdddddd");
+	this.object.tagCloud[cfg.id].addVariable("hicolor", "0xffffff");
 	this.object.tagCloud[cfg.id].addVariable("tspeed", "100");
 	this.object.tagCloud[cfg.id].addVariable("distr", "true");
 	this.object.tagCloud[cfg.id].addVariable("mode", "both");
 	var tags = '<tags>';
 	for ( var i in cfg.data.data) {
-		tags += '<a href="javascript:void(0)" style="font-size: 9.0243902439pt;" >'
-				+ cfg.data.data[i] + '</a>';
+		if(parseInt(cfg.data.data[i].value) >= 64){
+			color = colors[6];
+			size = 6;
+		} else if(parseInt(cfg.data.data[i].value) >= 32){
+			color = colors[5];
+			size = 5;
+		} else if(parseInt(cfg.data.data[i].value) >= 16){
+			color = colors[4];
+			size = 4;
+		} else if(parseInt(cfg.data.data[i].value) >= 8){
+			color = colors[3];
+			size = 3;
+		} else if(parseInt(cfg.data.data[i].value) >= 4){
+			color = colors[2];
+			size = 2;
+		} else if(parseInt(cfg.data.data[i].value) >= 2){
+			color = colors[1];
+			size = 1;
+		}  else{
+			color = colors[0];
+			size = 0;
+		}  
+		tags += '<a href="javascript:void(0)" style="font-size: ' + (12 + 2 * size) + 'pt;" >'
+				+ cfg.data.data[i].label + '</a>';
 	}
 	tags += '</tags>';
 	this.object.tagCloud[cfg.id].addVariable("tagcloud",
 			encodeURIComponent(tags));
 	this.object.tagCloud[cfg.id].write(cfg.id);
+	alert(tags);
 };
