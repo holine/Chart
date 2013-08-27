@@ -157,6 +157,11 @@ var maps = function(cfg) {
 		this.scale.y = this.height / this.path.y;
 	};
 	this.draw = function(data) {
+		for(var i in this.paths){
+			if(typeof(data[i]) == 'undefined'){
+				data[i] = {weight:0, content:''};
+			}
+		}
 		if (this.isIE) {
 			this.IEdraw(data);
 		} else {
