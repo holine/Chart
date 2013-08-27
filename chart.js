@@ -13,13 +13,13 @@ Chart.prototype.map = function(cfg) {
 		this.object.map[cfg.id] = new maps({
 			parent : cfg.id,
 			'colors' : {
-				"0.5" : "#c1e0ff",
-				"1" : "#abd5f5",
-				"2" : "#aee6c1",
-				"3" : "#fed072",
-				"100" : "#f7b44f",
+				"0.5" : "#8fe7ff",
+				"1" : "#32ccfe",
+				"2" : "#3399fe",
+				"3" : "#0074cb",
+				"100" : "#005797",
 			},
-			overColor:'#36AEE9',
+			overColor : '#36AEE9',
 		});
 	}
 	this.object.map[cfg.id].draw(cfg.data);
@@ -33,9 +33,10 @@ Chart.prototype.area = function(cfg) {
 	}
 
 	var chart = {
+		alternateHGridColor : '#ffffff',
 		canvasBorderAlpha : 0,
 		formatNumber : 1,
-		formatNumberScale : 1,
+		formatNumberScale : 0,
 		placeValuesInside : 0,
 		lineColor : '#FFFFFF',
 		is2D : 0,
@@ -77,7 +78,9 @@ Chart.prototype.area = function(cfg) {
 	// use3DLighting:0
 	};
 	for ( var i in chart) {
-		cfg.data['chart'][i] = chart[i];
+		if(typeof(cfg.data['chart'][i]) == 'undefined'){
+			cfg.data['chart'][i] = chart[i];
+		}
 	}
 
 	cfg.data['styles'] = {
@@ -135,6 +138,7 @@ Chart.prototype.area = function(cfg) {
 	}
 
 	this.object.area[cfg.id].setJSONData(cfg.data);
+	this.object.area[cfg.id].setTransparent(true);
 	this.object.area[cfg.id].render(cfg.id);
 
 };
@@ -146,11 +150,12 @@ Chart.prototype.column = function(cfg) {
 				typeof (cfg.height) == 'undefined' ? '100%' : cfg.height, 0, 1);
 	}
 	var chart = {
+		// plotFillAlpha:50,
 		showPlotBorder : 0,
 		overlapColumns : 0,
 		showValues : 0,
 		valuePadding : 5,
-		formatNumber : 0,
+		formatNumber : 1,
 		formatNumberScale : 0,
 		placeValuesInside : 0,
 		lineColor : '#FFFFFF',
@@ -179,11 +184,14 @@ Chart.prototype.column = function(cfg) {
 		xAxisName : '',
 		yAxisName : '',
 		caption : '',
-		numberPrefix : ''
+		numberPrefix : '',
+		plotGradientColor : ''
 	// use3DLighting:0
 	};
 	for ( var i in chart) {
-		cfg.data['chart'][i] = chart[i];
+		if(typeof(cfg.data['chart'][i]) == 'undefined'){
+			cfg.data['chart'][i] = chart[i];
+		}
 	}
 
 	cfg.data['styles'] = {
@@ -216,6 +224,22 @@ Chart.prototype.column = function(cfg) {
 			"type" : "font",
 			"size" : "12",
 			"color" : "666666",
+		}, {
+			"name" : "myBevel",
+			"type" : "bevel",
+			"distance" : "3"
+		}, {
+			"name" : "myShadow",
+			"type" : "shadow",
+			"angle" : "45",
+			"distance" : "3"
+		}, {
+			"name" : "myAnim",
+			"type" : "animation",
+			"param" : "_alpha",
+			"start" : "0",
+			end : 5,
+			"duration" : "1"
 		} ],
 		"application" : [ {
 			"toobject" : "ToolTip",
@@ -226,6 +250,9 @@ Chart.prototype.column = function(cfg) {
 		}, {
 			"toobject" : "yAxisValues",
 			"styles" : "myYAxisFont"
+		}, {
+			"toobject" : "DATAPLOT",
+			"styles" : "myAnims"
 		} ]
 	};
 	for ( var i in cfg.data.data) {
@@ -303,15 +330,21 @@ Chart.prototype.pie = function(cfg) {
 		cfg.data['chart'][i] = chart[i];
 	}
 	var colors = [ '#FFC20B', '#4392D8', '00AC7C' ];
+	var index = 0;
 	for ( var i in cfg.data.data) {
-		cfg.data.data[i]['color'] = colors[i % 3];
+		if (typeof (cfg.data.data[i]['color']) == 'undefined') {
+			cfg.data.data[i]['color'] = colors[i % 3];
+			index = ++index % 3;
+		}
+
 	}
 	this.object.pie[cfg.id].setJSONData(cfg.data);
 	this.object.pie[cfg.id].setTransparent(true);
 	this.object.pie[cfg.id].render(cfg.id);
 };
 Chart.prototype.TagCloud = function(cfg) {
-	var colors = ["#c1e0ff","#abd5f5","#aee6c1","#fed072","#f7b44f","#fb8755","#ef730e"];
+	var colors = [ "#c1e0ff", "#abd5f5", "#aee6c1", "#fed072", "#f7b44f",
+			"#fb8755", "#ef730e" ];
 	var color;
 	var size;
 	if (typeof (this.object.pie[cfg.id]) == 'undefined') {
@@ -331,30 +364,30 @@ Chart.prototype.TagCloud = function(cfg) {
 	this.object.tagCloud[cfg.id].addVariable("mode", "both");
 	var tags = '<tags>';
 	for ( var i in cfg.data.data) {
-		if(parseInt(cfg.data.data[i].value) >= 64){
+		if (parseInt(cfg.data.data[i].value) >= 64) {
 			color = colors[6];
 			size = 6;
-		} else if(parseInt(cfg.data.data[i].value) >= 32){
+		} else if (parseInt(cfg.data.data[i].value) >= 32) {
 			color = colors[5];
 			size = 5;
-		} else if(parseInt(cfg.data.data[i].value) >= 16){
+		} else if (parseInt(cfg.data.data[i].value) >= 16) {
 			color = colors[4];
 			size = 4;
-		} else if(parseInt(cfg.data.data[i].value) >= 8){
+		} else if (parseInt(cfg.data.data[i].value) >= 8) {
 			color = colors[3];
 			size = 3;
-		} else if(parseInt(cfg.data.data[i].value) >= 4){
+		} else if (parseInt(cfg.data.data[i].value) >= 4) {
 			color = colors[2];
 			size = 2;
-		} else if(parseInt(cfg.data.data[i].value) >= 2){
+		} else if (parseInt(cfg.data.data[i].value) >= 2) {
 			color = colors[1];
 			size = 1;
-		}  else{
+		} else {
 			color = colors[0];
 			size = 0;
-		}  
-		tags += '<a href="javascript:void(0)" style="font-size: ' + (12 + 2 * size) + 'pt;" >'
-				+ cfg.data.data[i].label + '</a>';
+		}
+		tags += '<a href="javascript:void(0)" style="font-size: '
+				+ (12 + 2 * size) + 'pt;" >' + cfg.data.data[i].label + '</a>';
 	}
 	tags += '</tags>';
 	this.object.tagCloud[cfg.id].addVariable("tagcloud",
