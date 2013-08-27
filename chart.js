@@ -17,9 +17,7 @@ Chart.prototype.map = function(cfg) {
 				"1" : "#abd5f5",
 				"2" : "#aee6c1",
 				"3" : "#fed072",
-				"4" : "#c1e0ff",
-				"5" : "#fb8755",
-				"100" : "#ef730e"
+				"100" : "#f7b44f",
 			},
 			overColor:'#36AEE9',
 		});
@@ -362,5 +360,4 @@ Chart.prototype.TagCloud = function(cfg) {
 	this.object.tagCloud[cfg.id].addVariable("tagcloud",
 			encodeURIComponent(tags));
 	this.object.tagCloud[cfg.id].write(cfg.id);
-	alert(tags);
 };
