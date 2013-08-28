@@ -17,16 +17,16 @@ body {
 </style>
 </HEAD>
 <body>
-	<div id="Area" style="height: 500px;"></div>
-	<div id="Column" style="height: 500px;"></div>
-	<div id="Pie" style="height: 500px;"></div>
+	<div id="Area"></div>
+	<div id="Column"></div>
+	<div id="Pie"></div>
 	<div id="Map"></div>
-	<div id="TagCloud" style="height: 500px;"></div>
+	<div id="TagCloud"></div>
 	<script type="text/javascript">
 		var chart = new Chart({
 			path : './'
 		});
-		chart.TagCloud({
+		/* chart.TagCloud({
 			id : 'TagCloud',
 			data : {
 				"chart" : {
@@ -59,7 +59,7 @@ body {
 					value : 64
 				} ]
 			}
-		});
+		}); *//* 
 		chart.area({
 			id : 'Area',
 			data : {
@@ -68,7 +68,7 @@ body {
 					"xAxisName" : "Week",
 					"yAxisName" : "Sales",
 					yAxisMaxValue : '1800000',
-					numberSuffix: ' %'
+					numberSuffix : ' %'
 				},
 
 				"data" : [ {
@@ -147,7 +147,7 @@ body {
 					"value" : "1054005"
 				} ]
 			}
-		});
+		}); *//* 
 		chart.column({
 			id : 'Column',
 			data : {
@@ -233,7 +233,7 @@ body {
 					"value" : "1054005"
 				} ]
 			}
-		});
+		}); *//* 
 		chart.pie({
 			id : 'Pie',
 			data : {
@@ -262,7 +262,7 @@ body {
 					color : '#ffc20b'
 				} ]
 			}
-		});
+		}); */
 		chart
 				.map({
 					id : 'Map',

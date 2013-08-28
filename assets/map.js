@@ -82,9 +82,7 @@ var maps = function(cfg) {
 		y : 1
 	};
 	this.callback = {};
-	this.isIE = navigator.userAgent.toLowerCase().match(/msie [\d.]/) ? (typeof (document
-			.createElement('video').canPlayType) == 'undefined' ? true : false)
-			: false;
+	this.isIE = !!!document.createElement('canvas').getContext;;
 	this.colorObject = new Array();
 	this.init = function(obj) {
 		if (typeof obj != 'undefined') {
@@ -157,9 +155,12 @@ var maps = function(cfg) {
 		this.scale.y = this.height / this.path.y;
 	};
 	this.draw = function(data) {
-		for(var i in this.paths){
-			if(typeof(data[i]) == 'undefined'){
-				data[i] = {weight:0, content:''};
+		for ( var i in this.paths) {
+			if (typeof (data[i]) == 'undefined') {
+				data[i] = {
+					weight : 0,
+					content : ''
+				};
 			}
 		}
 		if (this.isIE) {
@@ -210,7 +211,7 @@ var maps = function(cfg) {
 		}
 		// 绘制地图
 		for ( var path in this.paths) {
-			if(typeof(data[path].callback) != 'undefined'){
+			if (typeof (data[path].callback) != 'undefined') {
 				this.callback[path] = data[path].callback;
 			}
 			var area = this.create('<vml:shape class="vml">');
@@ -225,18 +226,22 @@ var maps = function(cfg) {
 				this.style.filter = "shadow(color=gray,direction=135)";
 				this.fillColor = _this.overColor;
 				_this.showTips(data[this.getAttribute('_title')].content);
-				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseover) != 'undefined'){
-					_this.callback[this.getAttribute('_title')].onmouseover(this.getAttribute('_title'));
+				if (typeof (_this.callback[this.getAttribute('_title')]) != 'undefined'
+						&& typeof (_this.callback[this.getAttribute('_title')].onmouseover) != 'undefined') {
+					_this.callback[this.getAttribute('_title')]
+							.onmouseover(this.getAttribute('_title'));
 				}
-				
+
 			};
 			area.onmouseout = function() {
 				this.style.zIndex = '';
 				this.style.filter = "";
 				this.fillColor = this.getAttribute('color');
 				_this.tips.style.display = 'none';
-				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseout) != 'undefined'){
-					_this.callback[this.getAttribute('_title')].onmouseout(this.getAttribute('_title'));
+				if (typeof (_this.callback[this.getAttribute('_title')]) != 'undefined'
+						&& typeof (_this.callback[this.getAttribute('_title')].onmouseout) != 'undefined') {
+					_this.callback[this.getAttribute('_title')].onmouseout(this
+							.getAttribute('_title'));
 				}
 			};
 			area.onmousemove = function(e) {
@@ -251,12 +256,12 @@ var maps = function(cfg) {
 		}
 
 		// 绘制tips
-/*
-		this.tips = this.create('<vml:shape class="vml"></vml:shape>');
-		this.tips.setAttribute('fillColor', '#FFFFFF');
-		this.tips.setAttribute('StrokeColor', '#DDDDDD');
-		this.tips.style.display = 'none';
-		this.tips.style.zIndex = '999999';*/
+		/*
+		 * this.tips = this.create('<vml:shape class="vml"></vml:shape>');
+		 * this.tips.setAttribute('fillColor', '#FFFFFF');
+		 * this.tips.setAttribute('StrokeColor', '#DDDDDD');
+		 * this.tips.style.display = 'none'; this.tips.style.zIndex = '999999';
+		 */
 		this.tips = document.createElement('div');
 		this.tips.style.display = 'none';
 		this.tips.style.position = 'absolute';
@@ -278,37 +283,38 @@ var maps = function(cfg) {
 		document.body.removeChild(this.tips);
 		this.tips.innerHTML = content;
 		this.span.innerHTML = content;/*
-		this.tips.setAttribute('coordsize', parseInt(this.span.offsetWidth
-				+ this.span.offsetHeight * 0.3)
-				+ ',' + this.span.offsetHeight);
-		this.tips.style.width = parseInt(this.span.offsetWidth
-				+ this.span.offsetHeight * 0.3)
-				+ 'px';
-		this.tips.style.height = this.span.offsetHeight + 'px';
-		this.tips.style.padding = '10px 0 0 '
-				+ parseInt(this.span.offsetHeight * 0.3 + 11) + 'px';
-		this.tips.setAttribute('path',
-				'M0,'
-						+ this.span.offsetHeight
-						+ ' l '
-						+ parseInt(this.span.offsetHeight * 0.3)
-						+ ','
-						+ parseInt(this.span.offsetHeight * 0.8)
-						+ ' '
-						+ parseInt(this.span.offsetHeight * 0.3)
-						+ ','
-						+ this.span.offsetHeight
-						+ ' '
-						+ parseInt(this.span.offsetWidth
-								+ this.span.offsetHeight * 0.3)
-						+ ','
-						+ this.span.offsetHeight
-						+ ' '
-						+ parseInt(this.span.offsetWidth
-								+ this.span.offsetHeight * 0.3) + ',0 '
-						+ parseInt(this.span.offsetHeight * 0.3) + ',0 '
-						+ parseInt(this.span.offsetHeight * 0.3) + ','
-						+ parseInt(this.span.offsetHeight * 0.5) + 'xe');*/
+										 * this.tips.setAttribute('coordsize',
+										 * parseInt(this.span.offsetWidth +
+										 * this.span.offsetHeight * 0.3) + ',' +
+										 * this.span.offsetHeight);
+										 * this.tips.style.width =
+										 * parseInt(this.span.offsetWidth +
+										 * this.span.offsetHeight * 0.3) + 'px';
+										 * this.tips.style.height =
+										 * this.span.offsetHeight + 'px';
+										 * this.tips.style.padding = '10px 0 0 ' +
+										 * parseInt(this.span.offsetHeight * 0.3 +
+										 * 11) + 'px';
+										 * this.tips.setAttribute('path', 'M0,' +
+										 * this.span.offsetHeight + ' l ' +
+										 * parseInt(this.span.offsetHeight *
+										 * 0.3) + ',' +
+										 * parseInt(this.span.offsetHeight *
+										 * 0.8) + ' ' +
+										 * parseInt(this.span.offsetHeight *
+										 * 0.3) + ',' + this.span.offsetHeight + ' ' +
+										 * parseInt(this.span.offsetWidth +
+										 * this.span.offsetHeight * 0.3) + ',' +
+										 * this.span.offsetHeight + ' ' +
+										 * parseInt(this.span.offsetWidth +
+										 * this.span.offsetHeight * 0.3) + ',0 ' +
+										 * parseInt(this.span.offsetHeight *
+										 * 0.3) + ',0 ' +
+										 * parseInt(this.span.offsetHeight *
+										 * 0.3) + ',' +
+										 * parseInt(this.span.offsetHeight *
+										 * 0.5) + 'xe');
+										 */
 		this.tips.style.display = 'block';
 		document.body.appendChild(this.tips);
 	};
@@ -346,6 +352,119 @@ var maps = function(cfg) {
 		this.main.setAttribute('viewBox', '0 0 ' + this.path.x + ' '
 				+ this.path.y);
 		document.getElementById(this.parent).appendChild(this.main);
+
+		// 定义阴影样式
+		this.main.appendChild((function() {
+			var defs = document.createElementNS("http://www.w3.org/2000/svg",
+					'defs');
+			var filter = document.createElementNS("http://www.w3.org/2000/svg",
+					'filter');
+			filter.id = 'shadow';
+			var feGaussianBlur = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feGaussianBlur');
+			feGaussianBlur.setAttribute('result', 'blurredAlpha');
+			feGaussianBlur.setAttribute('in', 'SourceAlpha');
+			feGaussianBlur.setAttribute('stdDeviation', '3');
+			filter.appendChild(feGaussianBlur);
+			var feOffset = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feOffset');
+			feOffset.setAttribute('result', 'offsetBlurredAlpha');
+			feOffset.setAttribute('in', 'blurredAlpha');
+			feOffset.setAttribute('dx', '2');
+			feOffset.setAttribute('dy', '1');
+			filter.appendChild(feOffset);
+
+			/*var feDiffuseLighting = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feOffset');
+			feDiffuseLighting.setAttribute('result', 'bumpMapDiffuse');
+			feDiffuseLighting.setAttribute('in', 'blurredAlpha');
+			feDiffuseLighting.setAttribute('surfaceScale', '5');
+			feDiffuseLighting.setAttribute('diffuseConstant', '0.5');
+			feDiffuseLighting.setAttribute('style',
+					'lighting-color:rgb(255,255,255)');
+
+			var feDistantLight = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feOffset');
+			feDistantLight.setAttribute('azimuth', '135');
+			feDistantLight.setAttribute('elevation', '60');
+			feDiffuseLighting.appendChild(feDistantLight);
+			//filter.appendChild(feDiffuseLighting);
+*/			
+			var feDiffuseLighting = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feDiffuseLighting');
+			feDiffuseLighting.setAttribute('result', 'bumpMapDiffuse');
+			feDiffuseLighting.setAttribute('in', 'blurredAlpha');
+			feDiffuseLighting.setAttribute('surfaceScale', '5');
+			feDiffuseLighting.setAttribute('diffuseConstant', '0.9');
+			feDiffuseLighting.setAttribute('style', 'lighting-color:rgb(255,255,255)');
+			
+			var feDistantLight = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feDistantLight');
+			feDistantLight.setAttribute('azimuth', '135');
+			feDistantLight.setAttribute('elevation', '60');
+			feDiffuseLighting.appendChild(feDistantLight);
+
+			filter.appendChild(feDiffuseLighting);
+
+			var feComposite = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feComposite');
+			feComposite.setAttribute('result', 'litPaint');
+			feComposite.setAttribute('in', 'bumpMapDiffuse');
+			feComposite.setAttribute('operator', 'arithmetic');
+			feComposite.setAttribute('k1', '1');
+			feComposite.setAttribute('k2', '0');
+			feComposite.setAttribute('k3', '0');
+			feComposite.setAttribute('k4', '0');
+			feComposite.setAttribute('in2', 'SourceGraphic');
+			filter.appendChild(feComposite);
+			var feSpecularLighting = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feSpecularLighting');
+			feSpecularLighting.setAttribute('result', 'bumpMapSpecular');
+			feSpecularLighting.setAttribute('in', 'blurredAlpha');
+			feSpecularLighting.setAttribute('surfaceScale', '5');
+			feSpecularLighting.setAttribute('specularConstant', '0.5');
+			feSpecularLighting.setAttribute('specularExponent', '10');
+			feSpecularLighting.setAttribute('style', 'lighting-color:rgb(255,255,255)');
+			var feDistantLight = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feDistantLight');
+			feDistantLight.setAttribute('azimuth', '135');
+			feDistantLight.setAttribute('elevation', '60');
+			feSpecularLighting.appendChild(feDistantLight);
+			filter.appendChild(feSpecularLighting);
+			/*var feComposite = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feComposite');
+			feComposite.setAttribute('result', 'litPaint');
+			feComposite.setAttribute('in', 'litPaint');
+			feComposite.setAttribute('operator', 'arithmetic');
+			feComposite.setAttribute('k1', '0');
+			feComposite.setAttribute('k2', '1');
+			feComposite.setAttribute('k3', '1');
+			feComposite.setAttribute('k4', '0');
+			feComposite.setAttribute('in2', 'bumpMapSpecular');
+			//filter.appendChild(feComposite);
+*/			
+			/*var feComposite = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feComposite');
+			feComposite.setAttribute('result', 'litPaint');
+			feComposite.setAttribute('in', 'litPaint');
+			feComposite.setAttribute('operator', 'in');
+			feComposite.setAttribute('in2', 'SourceAlpha');
+			//filter.appendChild(feComposite);
+*/			var feMerge = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feMerge');
+			var feMergeNode = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feMergeNode');
+			feMergeNode.setAttribute('in', 'offsetBlurredAlpha');
+			feMerge.appendChild(feMergeNode);
+			var feMergeNode = document.createElementNS(
+					"http://www.w3.org/2000/svg", 'feMergeNode');
+			feMergeNode.setAttribute('in', 'litPaint');
+			feMerge.appendChild(feMergeNode);
+			filter.appendChild(feMerge);
+			defs.appendChild(filter);
+			return defs;
+		})());
+
 		// 绘制色深比例块
 		var blockWidth = this.path.x * 0.03;
 		this.scale.x = this.path.x / this.width;
@@ -383,7 +502,7 @@ var maps = function(cfg) {
 		;
 		// 绘制地图
 		for ( var path in this.paths) {
-			if(typeof(data[path].callback) != 'undefined'){
+			if (typeof (data[path].callback) != 'undefined') {
 				this.callback[path] = data[path].callback;
 			}
 			var node = document.createElementNS("http://www.w3.org/2000/svg",
@@ -396,22 +515,27 @@ var maps = function(cfg) {
 			node.setAttribute('_title', path);
 
 			node.onmouseover = function() {
-				this.style.WebkitSvgShadow = '2px 2px 10px #0066CC';
 				this.setAttribute('fill', _this.overColor);
 				_this.MshowTips(data[this.getAttribute('_title')].content);
-				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseover) != 'undefined'){
-					_this.callback[this.getAttribute('_title')].onmouseover(this.getAttribute('_title'));
+				if (typeof (_this.callback[this.getAttribute('_title')]) != 'undefined'
+						&& typeof (_this.callback[this.getAttribute('_title')].onmouseover) != 'undefined') {
+					_this.callback[this.getAttribute('_title')]
+							.onmouseover(this.getAttribute('_title'));
 				}
+				this.style.filter = 'url(#shadow)';
+				this.style.zIndex = '100';
 			};
 			node.onmouseout = function() {
-				this.style.WebkitSvgShadow = '';
 				this.setAttribute('fill', this.getAttribute('color'));
 				_this.tips.style.display = 'none';
 				_this.tips.style.top = '-10000px';
 				_this.tips.style.left = '-10000px';
-				if(typeof(_this.callback[this.getAttribute('_title')]) != 'undefined' && typeof(_this.callback[this.getAttribute('_title')].onmouseout) != 'undefined'){
-					_this.callback[this.getAttribute('_title')].onmouseout(this.getAttribute('_title'));
+				if (typeof (_this.callback[this.getAttribute('_title')]) != 'undefined'
+						&& typeof (_this.callback[this.getAttribute('_title')].onmouseout) != 'undefined') {
+					_this.callback[this.getAttribute('_title')].onmouseout(this
+							.getAttribute('_title'));
 				}
+				this.style.filter = '';this.style.zIndex = '1';
 			};
 			node.onmousemove = function(e) {
 				e = e || window.event;
@@ -436,50 +560,57 @@ var maps = function(cfg) {
 		this.tips = document.createElement('div');
 		this.tips.style.position = 'absolute';
 		this.tips.style.display = 'none';
-		this.tips.style.background = '#FFFFFF';
 		document.body.appendChild(this.tips);
 	};
 	this.MshowTips = function(content) {
-		this.span.innerHTML = content;this.tips.innerHTML = content;/*
-		while (this.tips.childNodes.length > 1) {
-			this.tips.removeChild(this.tips.childNodes[1]);
-		}
-		content = content.split(/<br \/>|<br>|<br\/>/i);
-		for ( var i = 0; i < content.length; i++) {
-			var text = document.createElementNS("http://www.w3.org/2000/svg",
-					'text');
-			text.setAttribute('x', this.span.offsetHeight * 0.3 + 11);
-			text.setAttribute('y', (this.span.offsetHeight - 20)
-					/ content.length * (i + 1) + 6);
-			text.setAttribute('font-size', this.fontSize);
-			text.textContent = content[i];
-			this.tips.appendChild(text);
-		}
-		this.tips.style.width = this.span.offsetHeight * 0.3
-				+ this.span.offsetWidth + 2 + 'px';
-		this.tips.style.height = this.span.offsetHeight + 2 + 'px';
-		this.tips.childNodes[0].setAttribute('d', 'M0,'
-				+ this.span.offsetHeight + ' L ' + this.span.offsetHeight * 0.3
-				+ ',' + this.span.offsetHeight * 0.8 + ' '
-				+ this.span.offsetHeight * 0.3 + ',' + this.span.offsetHeight
-				+ ' ' + (this.span.offsetWidth + this.span.offsetHeight * 0.3)
-				+ ',' + this.span.offsetHeight + ' '
-				+ (this.span.offsetWidth + this.span.offsetHeight * 0.3)
-				+ ',0 ' + this.span.offsetHeight * 0.3 + ',0 '
-				+ this.span.offsetHeight * 0.3 + ','
-				+ this.span.offsetHeight * 0.5 + 'Z');*/
+		this.span.innerHTML = content;
+		this.tips.innerHTML = content;/*
+										 * while (this.tips.childNodes.length >
+										 * 1) {
+										 * this.tips.removeChild(this.tips.childNodes[1]); }
+										 * content = content.split(/<br \/>|<br>|<br\/>/i);
+										 * for ( var i = 0; i < content.length;
+										 * i++) { var text =
+										 * document.createElementNS("http://www.w3.org/2000/svg",
+										 * 'text'); text.setAttribute('x',
+										 * this.span.offsetHeight * 0.3 + 11);
+										 * text.setAttribute('y',
+										 * (this.span.offsetHeight - 20) /
+										 * content.length * (i + 1) + 6);
+										 * text.setAttribute('font-size',
+										 * this.fontSize); text.textContent =
+										 * content[i];
+										 * this.tips.appendChild(text); }
+										 * this.tips.style.width =
+										 * this.span.offsetHeight * 0.3 +
+										 * this.span.offsetWidth + 2 + 'px';
+										 * this.tips.style.height =
+										 * this.span.offsetHeight + 2 + 'px';
+										 * this.tips.childNodes[0].setAttribute('d',
+										 * 'M0,' + this.span.offsetHeight + ' L ' +
+										 * this.span.offsetHeight * 0.3 + ',' +
+										 * this.span.offsetHeight * 0.8 + ' ' +
+										 * this.span.offsetHeight * 0.3 + ',' +
+										 * this.span.offsetHeight + ' ' +
+										 * (this.span.offsetWidth +
+										 * this.span.offsetHeight * 0.3) + ',' +
+										 * this.span.offsetHeight + ' ' +
+										 * (this.span.offsetWidth +
+										 * this.span.offsetHeight * 0.3) + ',0 ' +
+										 * this.span.offsetHeight * 0.3 + ',0 ' +
+										 * this.span.offsetHeight * 0.3 + ',' +
+										 * this.span.offsetHeight * 0.5 + 'Z');
+										 */
 		this.tips.style.display = 'block';
 	};
 	this.color = function(precent) {
-		var color = this.colorObject[0][1];
-		for ( var i = 0; i < this.colorObject.length; i++) {
-			if (Number(this.colorObject[i][0]) < Number(precent)) {
-				color = this.colorObject[i][1];
-			} else {
+		var length = this.colorObject.length;
+		for ( var i = 0; i < length; i++) {
+			if (Number(this.colorObject[i][0]) > Number(precent)) {
 				break;
 			}
 		}
-		return color;
+		return this.colorObject[i][1];
 	};
 	this.colorLength = function() {
 		return this.colorObject.length;

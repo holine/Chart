@@ -13,13 +13,16 @@ Chart.prototype.map = function(cfg) {
 		this.object.map[cfg.id] = new maps({
 			parent : cfg.id,
 			'colors' : {
-				"0.5" : "#8fe7ff",
-				"1" : "#32ccfe",
-				"2" : "#3399fe",
-				"3" : "#0074cb",
-				"100" : "#005797",
+				'100' : '#02528d',
+				'15' : '#0261b2',
+				'10' : '#0074cb',
+				'8' : '#098aea',
+				'5' : '#3f9dfa',
+				'3' : '#32ccfe',
+				'1' : '#8fe7ff'
 			},
-			overColor : '#36AEE9',
+			overColor : '#FFA500',
+			StrokeColor : '#f5f5f5',
 		});
 	}
 	this.object.map[cfg.id].draw(cfg.data);
@@ -33,6 +36,8 @@ Chart.prototype.area = function(cfg) {
 	}
 
 	var chart = {
+		labelPadding : 10,
+		canvasPadding : 10,
 		alternateHGridColor : '#ffffff',
 		canvasBorderAlpha : 0,
 		formatNumber : 1,
@@ -68,17 +73,15 @@ Chart.prototype.area = function(cfg) {
 		numberPrefix : '',
 		labelStep : 1,
 		drawAnchors : 1,
-		// anchorSides : 1,
 		anchorRadius : 5,
 		anchorBgColor : '46a9d5',
 		anchorBorderColor : 'ffffff',
 		anchorBorderThickness : 2,
 		anchorAlpha : 100,
 		plotBorderColor : '#46a9d5',
-	// use3DLighting:0
 	};
 	for ( var i in chart) {
-		if(typeof(cfg.data['chart'][i]) == 'undefined'){
+		if (typeof (cfg.data['chart'][i]) == 'undefined') {
 			cfg.data['chart'][i] = chart[i];
 		}
 	}
@@ -150,7 +153,6 @@ Chart.prototype.column = function(cfg) {
 				typeof (cfg.height) == 'undefined' ? '100%' : cfg.height, 0, 1);
 	}
 	var chart = {
-		// plotFillAlpha:50,
 		showPlotBorder : 0,
 		overlapColumns : 0,
 		showValues : 0,
@@ -186,10 +188,9 @@ Chart.prototype.column = function(cfg) {
 		caption : '',
 		numberPrefix : '',
 		plotGradientColor : ''
-	// use3DLighting:0
 	};
 	for ( var i in chart) {
-		if(typeof(cfg.data['chart'][i]) == 'undefined'){
+		if (typeof (cfg.data['chart'][i]) == 'undefined') {
 			cfg.data['chart'][i] = chart[i];
 		}
 	}
@@ -281,7 +282,7 @@ Chart.prototype.pie = function(cfg) {
 			"name" : "myLabelsFont",
 			"type" : "font",
 			"font" : "Arial",
-			"size" : "18",
+			"size" : "12",
 			"bold" : "0",
 			'borderColor' : '999999',
 			'bgColor' : '999999',
@@ -324,7 +325,6 @@ Chart.prototype.pie = function(cfg) {
 		showToolTipShadow : 1,
 		radius3D : 0,
 		caption : '',
-	// use3DLighting:0
 	};
 	for ( var i in chart) {
 		cfg.data['chart'][i] = chart[i];
@@ -343,10 +343,8 @@ Chart.prototype.pie = function(cfg) {
 	this.object.pie[cfg.id].render(cfg.id);
 };
 Chart.prototype.TagCloud = function(cfg) {
-	var colors = [ "#c1e0ff", "#abd5f5", "#aee6c1", "#fed072", "#f7b44f",
-			"#fb8755", "#ef730e" ];
-	var color;
-	var size;
+	var colors = [ 'a5dffa', '9fc8f0', '2bb9f9', '0facae', 'd2e86a', 'dda42f',
+			'd37121' ];
 	if (typeof (this.object.pie[cfg.id]) == 'undefined') {
 		this.object.tagCloud[cfg.id] = new SWFObject(this.path
 				+ '/assets/TagCloud.swf', cfg.id + '_chart',
@@ -363,31 +361,12 @@ Chart.prototype.TagCloud = function(cfg) {
 	this.object.tagCloud[cfg.id].addVariable("distr", "true");
 	this.object.tagCloud[cfg.id].addVariable("mode", "both");
 	var tags = '<tags>';
+	var step = parseInt(cfg.data.data.length / colors.length) + 1;
 	for ( var i in cfg.data.data) {
-		if (parseInt(cfg.data.data[i].value) >= 64) {
-			color = colors[6];
-			size = 6;
-		} else if (parseInt(cfg.data.data[i].value) >= 32) {
-			color = colors[5];
-			size = 5;
-		} else if (parseInt(cfg.data.data[i].value) >= 16) {
-			color = colors[4];
-			size = 4;
-		} else if (parseInt(cfg.data.data[i].value) >= 8) {
-			color = colors[3];
-			size = 3;
-		} else if (parseInt(cfg.data.data[i].value) >= 4) {
-			color = colors[2];
-			size = 2;
-		} else if (parseInt(cfg.data.data[i].value) >= 2) {
-			color = colors[1];
-			size = 1;
-		} else {
-			color = colors[0];
-			size = 0;
-		}
-		tags += '<a href="javascript:void(0)" style="font-size: '
-				+ (12 + 2 * size) + 'pt;" >' + cfg.data.data[i].label + '</a>';
+		tags += '<a href="javascript:void(0);" style="font-size: '
+				+ (12 + 2 * (step - parseInt(i / step))) + 'pt;" color="0x'
+				+ colors[parseInt(i / step)] + '" >' + cfg.data.data[i].label
+				+ '</a>';
 	}
 	tags += '</tags>';
 	this.object.tagCloud[cfg.id].addVariable("tagcloud",
